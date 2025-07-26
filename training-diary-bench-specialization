@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренировочный дневник - Специализация на жиме лежа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ee5a24;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .workout-form {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #ee5a24;
+        }
+
+        .exercise-group {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid #ee5a24;
+        }
+
+        .sets-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ee5a24, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+
+        .workout-history {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .workout-entry {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .workout-entry:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .workout-date {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ee5a24;
+            margin-bottom: 10px;
+        }
+
+        .exercise-details {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .progress-chart {
+            height: 300px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: #ee5a24;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏋️‍♂️ Тренировочный дневник</h1>
+            <p>Специализация на жиме лежа</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="currentWeight">92</div>
+                <div class="stat-label">Текущий вес (кг)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="benchMax">75</div>
+                <div class="stat-label">Жим лежа (кг)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalWorkouts">0</div>
+                <div class="stat-label">Всего тренировок</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="currentStreak">0</div>
+                <div class="stat-label">Дней подряд</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('workout')">Новая тренировка</button>
+                <button class="tab" onclick="showTab('history')">История</button>
+                <button class="tab" onclick="showTab('progress')">Прогресс</button>
+                <button class="tab" onclick="showTab('program')">Программа</button>
+            </div>
+
+            <div id="workout-tab" class="tab-content active">
+                <div class="workout-form">
+                    <h2>Добавить тренировку</h2>
+                    
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div>
+                                <label for="workoutDate">Дата тренировки:</label>
+                                <input type="date" id="workoutDate">
+                            </div>
+                            <div>
+                                <label for="bodyWeight">Вес тела (кг):</label>
+                                <input type="number" id="bodyWeight" step="0.1" placeholder="92.0">
+                            </div>
+                            <div>
+                                <label for="workoutType">Тип тренировки:</label>
+                                <select id="workoutType">
+                                    <option value="chest">Грудь + Плечи + Трицепс</option>
+                                    <option value="back">Спина + Бицепс</option>
+                                    <option value="legs">Ноги</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="exercisesContainer">
+                        <div class="exercise-group">
+                            <h3>Жим лежа (основное движение)</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label>Техника:</label>
+                                    <select>
+                                        <option>Негативная фаза 5 сек + пауза 2 сек</option>
+                                        <option>С бруска 8-10 см</option>
+                                        <option>Каждый повтор с паузой</option>
+                                        <option>В касание без паузы</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="sets-container">
+                                <input type="text" placeholder="Подход 1 (вес×повторы)" />
+                                <input type="text" placeholder="Подход 2" />
+                                <input type="text" placeholder="Подход 3" />
+                                <input type="text" placeholder="Подход 4" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="addExercise()">+ Добавить упражнение</button>
+                    
+                    <div class="form-group">
+                        <label for="workoutNotes">Заметки:</label>
+                        <textarea id="workoutNotes" rows="3" placeholder="Самочувствие, особенности тренировки..."></textarea>
+                    </div>
+
+                    <button class="btn" onclick="saveWorkout()">Сохранить тренировку</button>
+                </div>
+            </div>
+
+            <div id="history-tab" class="tab-content">
+                <div class="workout-history">
+                    <h2>История тренировок</h2>
+                    <div id="workoutList">
+                        <!-- Тренировки будут загружаться сюда -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="progress-tab" class="tab-content">
+                <h2>Прогресс</h2>
+                <div class="progress-chart">
+                    График прогресса жима лежа (будет добавлен позже)
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">+30кг</div>
+                        <div class="stat-label">Прогресс жима за цикл</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">+10кг</div>
+                        <div class="stat-label">Набор веса тела</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="program-tab" class="tab-content">
+                <h2>Программа тренировок</h2>
+                
+                <div class="exercise-group">
+                    <h3>Принципы системы:</h3>
+                    <ul style="padding-left: 20px; line-height: 1.6;">
+                        <li><strong>Специализация:</strong> 60-70% времени на жим лежа</li>
+                        <li><strong>Негативная фаза:</strong> 4-6 секунд контролируемого опускания</li>
+                        <li><strong>Паузы:</strong> 1-2 секунды на груди для устранения отбива</li>
+                        <li><strong>Работа с бруском:</strong> частичные повторения для превышения максимума</li>
+                        <li><strong>Волновая периодизация:</strong> чередование тяжелых/средних/легких дней</li>
+                        <li><strong>Прогрессия:</strong> еженедельное увеличение весов на 2.5-5кг</li>
+                    </ul>
+                </div>
+
+                <div class="exercise-group">
+                    <h3>День 1: Грудь + Плечи + Трицепс</h3>
+                    <p><strong>Жим лежа</strong> - основное движение (силовая работа)</p>
+                    <p><strong>Жимы гантелей</strong> (наклон/пол) - 4×8-12</p>
+                    <p><strong>Изоляция груди</strong> (разводки/кроссоверы) - 3-4×12-15</p>
+                    <p><strong>Плечи:</strong> махи + жимы - 3-4×12-15</p>
+                    <p><strong>Трицепс:</strong> базовые + изоляция - 4×10-15</p>
+                </div>
+
+                <div class="exercise-group">
+                    <h3>День 2: Спина + Бицепс</h3>
+                    <p><strong>Вертикальные тяги</strong> (широкий/параллельный) - 4×12-15</p>
+                    <p><strong>Горизонтальные тяги</strong> - 4×12-15</p>
+                    <p><strong>Односторонние тяги</strong> - 3×12-15</p>
+                    <p><strong>Становая тяга</strong> (периодически) - 4×8-10</p>
+                    <p><strong>Бицепс:</strong> базовые + изоляция - 4×12-15</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация данных
+        let workouts = JSON.parse(localStorage.getItem('workouts') || '[]');
+        let userStats = JSON.parse(localStorage.getItem('userStats') || '{"currentWeight": 92, "benchMax": 75}');
+
+        // Установка текущей даты
+        document.getElementById('workoutDate').value = new Date().toISOString().split('T')[0];
+
+        // Функции управления вкладками
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            if (tabName === 'history') {
+                loadWorkoutHistory();
+            }
+        }
+
+        // Добавление нового упражнения
+        function addExercise() {
+            const exercisesContainer = document.getElementById('exercisesContainer');
+            const exerciseDiv = document.createElement('div');
+            exerciseDiv.className = 'exercise-group';
+            exerciseDiv.innerHTML = `
+                <h3>
+                    <input type="text" placeholder="Название упражнения" style="border: none; background: transparent; font-size: 1.1em; font-weight: bold;">
+                    <button onclick="this.parentElement.parentElement.remove()" style="float: right; background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">✕</button>
+                </h3>
+                <div class="sets-container">
+                    <input type="text" placeholder="Подход 1 (вес×повторы)" />
+                    <input type="text" placeholder="Подход 2" />
+                    <input type="text" placeholder="Подход 3" />
+                    <input type="text" placeholder="Подход 4" />
+                </div>
+            `;
+            exercisesContainer.appendChild(exerciseDiv);
+        }
+
+        // Сохранение тренировки
+        function saveWorkout() {
+            const workoutData = {
+                id: Date.now(),
+                date: document.getElementById('workoutDate').value,
+                bodyWeight: parseFloat(document.getElementById('bodyWeight').value) || 0,
+                type: document.getElementById('workoutType').value,
+                exercises: [],
+                notes: document.getElementById('workoutNotes').value
+            };
+
+            // Сбор данных упражнений
+            document.querySelectorAll('.exercise-group').forEach(group => {
+                const exerciseName = group.querySelector('h3 input')?.value || group.querySelector('h3').textContent;
+                const sets = [];
+                group.querySelectorAll('.sets-container input').forEach(input => {
+                    if (input.value.trim()) {
+                        sets.push(input.value.trim());
+                    }
+                });
+                
+                if (sets.length > 0) {
+                    workoutData.exercises.push({
+                        name: exerciseName,
+                        sets: sets
+                    });
+                }
+            });
+
+            workouts.unshift(workoutData);
+            localStorage.setItem('workouts', JSON.stringify(workouts));
+
+            // Обновление статистики
+            updateStats();
+            
+            alert('Тренировка сохранена!');
+            
+            // Очистка формы
+            document.getElementById('workoutNotes').value = '';
+            document.querySelectorAll('.sets-container input').forEach(input => input.value = '');
+        }
+
+        // Загрузка истории тренировок
+        function loadWorkoutHistory() {
+            const workoutList = document.getElementById('workoutList');
+            
+            if (workouts.length === 0) {
+                workoutList.innerHTML = '<p>Пока нет сохраненных тренировок</p>';
+                return;
+            }
+
+            workoutList.innerHTML = workouts.map(workout => `
+                <div class="workout-entry">
+                    <div class="workout-date">${new Date(workout.date).toLocaleDateString('ru-RU')}</div>
+                    <p><strong>Тип:</strong> ${getWorkoutTypeName(workout.type)}</p>
+                    ${workout.bodyWeight ? `<p><strong>Вес тела:</strong> ${workout.bodyWeight} кг</p>` : ''}
+                    ${workout.exercises.map(exercise => `
+                        <div class="exercise-details">
+                            <strong>${exercise.name}:</strong><br>
+                            ${exercise.sets.join(', ')}
+                        </div>
+                    `).join('')}
+                    ${workout.notes ? `<p><strong>Заметки:</strong> ${workout.notes}</p>` : ''}
+                    <button onclick="deleteWorkout(${workout.id})" style="background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; float: right;">Удалить</button>
+                </div>
+            `).join('');
+        }
+
+        // Удаление тренировки
+        function deleteWorkout(id) {
+            if (confirm('Удалить эту тренировку?')) {
+                workouts = workouts.filter(w => w.id !== id);
+                localStorage.setItem('workouts', JSON.stringify(workouts));
+                loadWorkoutHistory();
+                updateStats();
+            }
+        }
+
+        // Обновление статистики
+        function updateStats() {
+            document.getElementById('totalWorkouts').textContent = workouts.length;
+            
+            if (workouts.length > 0) {
+                const latestWeight = workouts.find(w => w.bodyWeight)?.bodyWeight;
+                if (latestWeight) {
+                    document.getElementById('currentWeight').textContent = latestWeight;
+                }
+            }
+        }
+
+        // Получение названия типа тренировки
+        function getWorkoutTypeName(type) {
+            const types = {
+                'chest': 'Грудь + Плечи + Трицепс',
+                'back': 'Спина + Бицепс',
+                'legs': 'Ноги'
+            };
+            return types[type] || type;
+        }
+
+        // Инициализация при загрузке
+        updateStats();
+    </script>
+</body>
+</html>
