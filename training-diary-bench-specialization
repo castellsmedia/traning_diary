@@ -4,256 +4,725 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тренировочный дневник - Специализация на жиме лежа</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
+        :root {
+            --coral-primary: #C67B5C;
+            --coral-light: #D4906F;
+            --sage-green: #8FA68E;
+            --sage-light: #A4B8A3;
+            --cream: #F4F1ED;
+            --warm-white: #FEFCFA;
+            --charcoal: #2C2C2C;
+            --text-dark: #1A1A1A;
+            --text-medium: #4A4A4A;
+            --text-light: #7A7A7A;
+        }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            font-weight: 400;
+            overflow-x: hidden;
         }
-
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--text-dark);
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: var(--warm-white);
             border-radius: 15px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-
+        
         .header {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-            color: white;
-            padding: 30px;
+            background: linear-gradient(135deg, var(--coral-primary), var(--coral-light));
+            color: var(--warm-white);
+            padding: 40px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+            opacity: 0.6;
+        }
+        
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            color: var(--warm-white);
+            font-weight: 700;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
         }
-
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 30px;
-            background: #f8f9fa;
+            gap: 25px;
+            padding: 40px;
+            background: var(--cream);
         }
-
+        
         .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: var(--warm-white);
+            padding: 25px 20px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(44, 44, 44, 0.08);
+            border: 1px solid rgba(140, 118, 98, 0.12);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
         }
-
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--coral-primary), var(--sage-green));
+            border-radius: 12px 12px 0 0;
+        }
+        
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(198, 123, 92, 0.15);
+            border-color: var(--coral-light);
         }
-
+        
         .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: #ee5a24;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--coral-primary);
+            margin-bottom: 8px;
+            font-family: 'Lora', serif;
+            letter-spacing: -0.02em;
         }
-
+        
         .stat-label {
-            color: #666;
-            margin-top: 5px;
+            color: var(--text-medium);
+            font-weight: 500;
+            font-size: 0.95em;
         }
-
+        
         .main-content {
-            padding: 30px;
+            padding: 40px;
         }
-
-        .workout-form {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #ee5a24;
-        }
-
-        .exercise-group {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 5px solid #ee5a24;
-        }
-
-        .sets-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #ee5a24, #ff6b6b);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(238, 90, 36, 0.3);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
-        }
-
-        .workout-history {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .workout-entry {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .workout-entry:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .workout-date {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #ee5a24;
-            margin-bottom: 10px;
-        }
-
-        .exercise-details {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .progress-chart {
-            height: 300px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-        }
-
+        
         .tabs {
             display: flex;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(140, 118, 98, 0.15);
+            margin-bottom: 30px;
+            background: var(--cream);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
         }
-
+        
         .tab {
-            padding: 15px 25px;
+            padding: 20px 30px;
             cursor: pointer;
             border: none;
-            background: none;
-            font-size: 16px;
+            background: transparent;
+            font-size: 1em;
+            font-weight: 500;
+            color: var(--text-medium);
             transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            font-family: 'Satoshi', sans-serif;
         }
-
+        
         .tab.active {
-            background: #ee5a24;
-            color: white;
-            border-radius: 8px 8px 0 0;
+            background: linear-gradient(135deg, var(--coral-primary), var(--coral-light));
+            color: var(--warm-white);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(198, 123, 92, 0.3);
         }
-
+        
+        .tab:hover:not(.active) {
+            background: rgba(198, 123, 92, 0.1);
+            color: var(--coral-primary);
+        }
+        
         .tab-content {
             display: none;
         }
-
+        
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
-
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .workout-form {
+            background: var(--cream);
+            padding: 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(140, 118, 98, 0.12);
+            box-shadow: 0 4px 20px rgba(44, 44, 44, 0.05);
+        }
+        
+        .workout-form h2 {
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95em;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(140, 118, 98, 0.2);
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Satoshi', sans-serif;
+            transition: all 0.3s ease;
+            background: var(--warm-white);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--coral-primary);
+            box-shadow: 0 0 0 3px rgba(198, 123, 92, 0.1);
+        }
+        
+        .exercise-group {
+            background: var(--warm-white);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--coral-primary);
+            box-shadow: 0 2px 10px rgba(44, 44, 44, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .exercise-group:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(44, 44, 44, 0.1);
+        }
+        
+        .exercise-group h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .sets-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--coral-primary), var(--coral-light));
+            color: var(--warm-white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            font-family: 'Satoshi', sans-serif;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 15px rgba(198, 123, 92, 0.3);
+            letter-spacing: 0.01em;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(198, 123, 92, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--sage-green), var(--sage-light));
+            box-shadow: 0 4px 15px rgba(143, 166, 142, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 8px 25px rgba(143, 166, 142, 0.4);
+        }
+        
+        .btn-add {
+            background: transparent;
+            border: 2px dashed var(--coral-primary);
+            color: var(--coral-primary);
+            margin-bottom: 20px;
+        }
+        
+        .btn-add:hover {
+            background: var(--coral-primary);
+            color: var(--warm-white);
+            border-style: solid;
+        }
+        
+        .workout-history {
+            background: var(--warm-white);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(44, 44, 44, 0.05);
+        }
+        
+        .workout-history h2 {
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        
+        .workout-entry {
+            background: var(--cream);
+            border: 1px solid rgba(140, 118, 98, 0.12);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .workout-entry::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--sage-green), var(--coral-primary));
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .workout-entry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(44, 44, 44, 0.1);
+        }
+        
+        .workout-date {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--coral-primary);
+            margin-bottom: 15px;
+            font-family: 'Lora', serif;
+        }
+        
+        .exercise-details {
+            background: var(--warm-white);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--sage-green);
+        }
+        
+        .exercise-details strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        .progress-section {
+            background: var(--warm-white);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(44, 44, 44, 0.05);
+        }
+        
+        .progress-section h2 {
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .progress-chart {
+            height: 350px;
+            background: linear-gradient(135deg, var(--cream), var(--warm-white));
+            border-radius: 12px;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-medium);
+            border: 2px dashed rgba(140, 118, 98, 0.3);
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        
+        .program-section {
+            background: var(--warm-white);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(44, 44, 44, 0.05);
+        }
+        
+        .program-section h2 {
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 700;
+        }
+        
+        .principle-card {
+            background: var(--cream);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--sage-green);
+        }
+        
+        .principle-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        
+        .principle-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .principle-card li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+        
+        .principle-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--sage-green);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .day-program {
+            background: linear-gradient(135deg, var(--sage-green), var(--sage-light));
+            color: var(--warm-white);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .day-program h3 {
+            color: var(--warm-white);
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .day-program p {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            float: right;
+            transition: all 0.3s ease;
+        }
+        
+        .delete-btn:hover {
+            background: #ff3838;
+            transform: scale(1.05);
+        }
+        
+        .remove-exercise {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            float: right;
+            margin-top: -5px;
+        }
+        
+        .no-workouts {
+            text-align: center;
+            color: var(--text-light);
+            font-style: italic;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+        
+        /* Адаптивная верстка */
         @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .container {
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2em;
+                margin-bottom: 10px;
+            }
+            
+            .header p {
+                font-size: 1.1em;
             }
             
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 25px 20px;
+            }
+            
+            .stat-card {
+                padding: 20px 15px;
+            }
+            
+            .stat-value {
+                font-size: 1.8em;
+                margin-bottom: 6px;
+            }
+            
+            .stat-label {
+                font-size: 0.85em;
+            }
+            
+            .main-content {
+                padding: 25px 20px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                padding: 15px 20px;
+                border-bottom: 1px solid rgba(140, 118, 98, 0.15);
+            }
+            
+            .tab:last-child {
+                border-bottom: none;
+            }
+            
+            .workout-form,
+            .workout-history,
+            .progress-section,
+            .program-section {
+                padding: 25px 20px;
+            }
+            
+            .workout-form h2,
+            .workout-history h2,
+            .progress-section h2,
+            .program-section h2 {
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .sets-container {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .exercise-group {
+                padding: 20px;
+            }
+            
+            .workout-entry {
+                padding: 20px;
+            }
+            
+            .workout-date {
+                font-size: 1.1em;
+                margin-bottom: 12px;
+            }
+            
+            .exercise-details {
+                padding: 15px;
+                margin-bottom: 12px;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.95em;
+            }
+            
+            .progress-chart {
+                height: 250px;
+                margin: 20px 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.9em;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .workout-form,
+            .workout-history,
+            .progress-section,
+            .program-section {
+                padding: 20px 15px;
+            }
+        }
+        
+        /* Анимации загрузки */
+        .loading {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Hover эффекты для интерактивных элементов */
+        .interactive:hover {
+            transform: translateY(-1px);
+            transition: transform 0.2s ease;
+        }
+        
+        /* Успешные уведомления */
+        .success-message {
+            background: linear-gradient(135deg, var(--sage-green), var(--sage-light));
+            color: var(--warm-white);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container loading">
         <div class="header">
-            <h1>🏋️‍♂️ Тренировочный дневник</h1>
-            <p>Специализация на жиме лежа</p>
+            <h1>Тренировочный дневник</h1>
+            <p>Специализация на жиме лежа - Система роста силы</p>
         </div>
 
         <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card interactive">
                 <div class="stat-value" id="currentWeight">92</div>
                 <div class="stat-label">Текущий вес (кг)</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card interactive">
                 <div class="stat-value" id="benchMax">75</div>
                 <div class="stat-label">Жим лежа (кг)</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card interactive">
                 <div class="stat-value" id="totalWorkouts">0</div>
                 <div class="stat-label">Всего тренировок</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card interactive">
                 <div class="stat-value" id="currentStreak">0</div>
                 <div class="stat-label">Дней подряд</div>
             </div>
@@ -263,6 +732,8 @@
             <div class="tabs">
                 <button class="tab active" onclick="showTab('workout')">Новая тренировка</button>
                 <button class="tab" onclick="showTab('history')">История</button>
+                <button class="tab" onclick="showTab('records')">Рекорды</button>
+                <button class="tab" onclick="showTab('analytics')">Аналитика</button>
                 <button class="tab" onclick="showTab('progress')">Прогресс</button>
                 <button class="tab" onclick="showTab('program')">Программа</button>
             </div>
@@ -315,11 +786,11 @@
                         </div>
                     </div>
 
-                    <button class="btn" onclick="addExercise()">+ Добавить упражнение</button>
+                    <button class="btn btn-add" onclick="addExercise()">+ Добавить упражнение</button>
                     
                     <div class="form-group">
-                        <label for="workoutNotes">Заметки:</label>
-                        <textarea id="workoutNotes" rows="3" placeholder="Самочувствие, особенности тренировки..."></textarea>
+                        <label for="workoutNotes">Заметки о тренировке:</label>
+                        <textarea id="workoutNotes" rows="4" placeholder="Самочувствие, особенности тренировки, достижения..."></textarea>
                     </div>
 
                     <button class="btn" onclick="saveWorkout()">Сохранить тренировку</button>
@@ -330,69 +801,1003 @@
                 <div class="workout-history">
                     <h2>История тренировок</h2>
                     <div id="workoutList">
-                        <!-- Тренировки будут загружаться сюда -->
+                        <div class="no-workouts">
+                            <p>Пока нет сохраненных тренировок</p>
+                            <p>Начните с добавления первой тренировки во вкладке "Новая тренировка"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="records-tab" class="tab-content">
+                <div class="progress-section">
+                    <h2>Персональные рекорды</h2>
+                    
+                    <!-- Топ рекорды -->
+                    <div class="top-records">
+                        <div class="stats-grid">
+                            <div class="stat-card record-highlight">
+                                <div class="stat-value" id="benchPR">-</div>
+                                <div class="stat-label">Жим лежа<br><small class="pr-date" id="benchPRDate">-</small></div>
+                            </div>
+                            <div class="stat-card record-highlight">
+                                <div class="stat-value" id="deadliftPR">-</div>
+                                <div class="stat-label">Становая тяга<br><small class="pr-date" id="deadliftPRDate">-</small></div>
+                            </div>
+                            <div class="stat-card record-highlight">
+                                <div class="stat-value" id="squatPR">-</div>
+                                <div class="stat-label">Приседания<br><small class="pr-date" id="squatPRDate">-</small></div>
+                            </div>
+                            <div class="stat-card record-highlight">
+                                <div class="stat-value" id="totalRecords">-</div>
+                                <div class="stat-label">Всего рекордов</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Фильтры для рекордов -->
+                    <div class="records-controls">
+                        <div class="form-row">
+                            <div>
+                                <label for="recordsView">Отображение:</label>
+                                <select id="recordsView" onchange="updateRecordsView()">
+                                    <option value="all">Все упражнения</option>
+                                    <option value="main">Основные движения</option>
+                                    <option value="recent">Недавние рекорды</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="recordsSort">Сортировка:</label>
+                                <select id="recordsSort" onchange="updateRecordsView()">
+                                    <option value="weight">По весу</option>
+                                    <option value="date">По дате</option>
+                                    <option value="name">По названию</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Список всех рекордов -->
+                    <div class="records-list">
+                        <h3>Все персональные рекорды</h3>
+                        <div id="recordsList">
+                            <div class="no-data">Добавьте несколько тренировок для отслеживания рекордов</div>
+                        </div>
+                    </div>
+                    
+                    <!-- История рекордов -->
+                    <div class="records-history">
+                        <h3>Недавние достижения</h3>
+                        <div id="recentRecords">
+                            <div class="no-data">Новые рекорды будут отображаться здесь</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="analytics-tab" class="tab-content">
+                <div class="progress-section">
+                    <h2>Аналитика и диаграммы</h2>
+                    
+                    <!-- Контроллы для выбора данных -->
+                    <div class="analytics-controls">
+                        <div class="form-row">
+                            <div>
+                                <label for="chartType">Тип диаграммы:</label>
+                                <select id="chartType" onchange="updateChart()">
+                                    <option value="weight">Вес тела</option>
+                                    <option value="bench">Жим лежа (макс. вес)</option>
+                                    <option value="volume">Общий объем тренировок</option>
+                                    <option value="frequency">Частота тренировок</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="timePeriod">Период:</label>
+                                <select id="timePeriod" onchange="updateChart()">
+                                    <option value="all">Все время</option>
+                                    <option value="30">Последние 30 дней</option>
+                                    <option value="90">Последние 3 месяца</option>
+                                    <option value="180">Последние 6 месяцев</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="exerciseFilter">Упражнение:</label>
+                                <select id="exerciseFilter" onchange="updateChart()">
+                                    <option value="all">Все упражнения</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Основная диаграмма -->
+                    <div class="chart-container">
+                        <canvas id="mainChart" width="400" height="200"></canvas>
+                    </div>
+                    
+                    <!-- Статистические карточки -->
+                    <div class="analytics-stats">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="avgWeight">-</div>
+                                <div class="stat-label">Средний вес тела</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="maxBench">-</div>
+                                <div class="stat-label">Максимальный жим</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="totalSets">-</div>
+                                <div class="stat-label">Всего подходов</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="avgFrequency">-</div>
+                                <div class="stat-label">Тренировок в неделю</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Детальная аналитика по упражнениям -->
+                    <div class="exercise-analysis">
+                        <h3>Прогресс по упражнениям</h3>
+                        <div id="exerciseProgressList">
+                            <div class="no-data">Данных пока недостаточно для анализа</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Календарь активности -->
+                    <div class="activity-calendar">
+                        <h3>Календарь тренировок</h3>
+                        <div id="activityGrid" class="activity-grid">
+                            <!-- Будет заполнено JavaScript -->
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div id="progress-tab" class="tab-content">
-                <h2>Прогресс</h2>
-                <div class="progress-chart">
-                    График прогресса жима лежа (будет добавлен позже)
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">+30кг</div>
-                        <div class="stat-label">Прогресс жима за цикл</div>
+                <div class="progress-section">
+                    <h2>Прогресс и аналитика</h2>
+                    
+                    <div class="progress-chart">
+                        График прогресса жима лежа<br>
+                        <small>(будет построен автоматически после нескольких тренировок)</small>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value">+10кг</div>
-                        <div class="stat-label">Набор веса тела</div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">+30кг</div>
+                            <div class="stat-label">Цель прогресса за цикл</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">+10кг</div>
+                            <div class="stat-label">Планируемый набор веса</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">3-6</div>
+                            <div class="stat-label">Месяцев на цикл</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">2.5кг</div>
+                            <div class="stat-label">Еженедельная прогрессия</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div id="program-tab" class="tab-content">
-                <h2>Программа тренировок</h2>
-                
-                <div class="exercise-group">
-                    <h3>Принципы системы:</h3>
-                    <ul style="padding-left: 20px; line-height: 1.6;">
-                        <li><strong>Специализация:</strong> 60-70% времени на жим лежа</li>
-                        <li><strong>Негативная фаза:</strong> 4-6 секунд контролируемого опускания</li>
-                        <li><strong>Паузы:</strong> 1-2 секунды на груди для устранения отбива</li>
-                        <li><strong>Работа с бруском:</strong> частичные повторения для превышения максимума</li>
-                        <li><strong>Волновая периодизация:</strong> чередование тяжелых/средних/легких дней</li>
-                        <li><strong>Прогрессия:</strong> еженедельное увеличение весов на 2.5-5кг</li>
-                    </ul>
-                </div>
+                <div class="program-section">
+                    <h2>Программа тренировок</h2>
+                    
+                    <div class="principle-card">
+                        <h3>Ключевые принципы системы:</h3>
+                        <ul>
+                            <li><strong>Специализация:</strong> 60-70% времени на жим лежа</li>
+                            <li><strong>Негативная фаза:</strong> 4-6 секунд контролируемого опускания</li>
+                            <li><strong>Паузы:</strong> 1-2 секунды на груди для устранения отбива</li>
+                            <li><strong>Работа с бруском:</strong> частичные повторения для превышения максимума</li>
+                            <li><strong>Волновая периодизация:</strong> чередование тяжелых/средних/легких дней</li>
+                            <li><strong>Прогрессия:</strong> еженедельное увеличение весов на 2.5-5кг</li>
+                        </ul>
+                    </div>
 
-                <div class="exercise-group">
-                    <h3>День 1: Грудь + Плечи + Трицепс</h3>
-                    <p><strong>Жим лежа</strong> - основное движение (силовая работа)</p>
-                    <p><strong>Жимы гантелей</strong> (наклон/пол) - 4×8-12</p>
-                    <p><strong>Изоляция груди</strong> (разводки/кроссоверы) - 3-4×12-15</p>
-                    <p><strong>Плечи:</strong> махи + жимы - 3-4×12-15</p>
-                    <p><strong>Трицепс:</strong> базовые + изоляция - 4×10-15</p>
-                </div>
+                    <div class="day-program">
+                        <h3>День 1: Грудь + Плечи + Трицепс</h3>
+                        <p><strong>Жим лежа</strong> - основное движение (силовая работа)</p>
+                        <p><strong>Жимы гантелей</strong> (наклон/пол) - 4×8-12</p>
+                        <p><strong>Изоляция груди</strong> (разводки/кроссоверы) - 3-4×12-15</p>
+                        <p><strong>Плечи:</strong> махи + жимы - 3-4×12-15</p>
+                        <p><strong>Трицепс:</strong> базовые + изоляция - 4×10-15</p>
+                    </div>
 
-                <div class="exercise-group">
-                    <h3>День 2: Спина + Бицепс</h3>
-                    <p><strong>Вертикальные тяги</strong> (широкий/параллельный) - 4×12-15</p>
-                    <p><strong>Горизонтальные тяги</strong> - 4×12-15</p>
-                    <p><strong>Односторонние тяги</strong> - 3×12-15</p>
-                    <p><strong>Становая тяга</strong> (периодически) - 4×8-10</p>
-                    <p><strong>Бицепс:</strong> базовые + изоляция - 4×12-15</p>
+                    <div class="day-program">
+                        <h3>День 2: Спина + Бицепс</h3>
+                        <p><strong>Вертикальные тяги</strong> (широкий/параллельный) - 4×12-15</p>
+                        <p><strong>Горизонтальные тяги</strong> - 4×12-15</p>
+                        <p><strong>Односторонние тяги</strong> - 3×12-15</p>
+                        <p><strong>Становая тяга</strong> (периодически) - 4×8-10</p>
+                        <p><strong>Бицепс:</strong> базовые + изоляция - 4×12-15</p>
+                    </div>
+
+                    <div class="principle-card">
+                        <h3>Волновая периодизация:</h3>
+                        <ul>
+                            <li><strong>Тяжелые дни:</strong> 1-3 повтора (85-100% от максимума)</li>
+                            <li><strong>Средние дни:</strong> 4-6 повторов (70-85% от максимума)</li>
+                            <li><strong>Легкие дни:</strong> 8+ повторений (акцент на технику)</li>
+                        </ul>
+                    </div>
+
+                    <div class="principle-card">
+                        <h3>Результаты системы:</h3>
+                        <ul>
+                            <li><strong>Проверенная эффективность:</strong> рост с 40кг×5 до 105-107кг×1 за 3 месяца</li>
+                            <li><strong>Набор веса:</strong> с 87кг до 102кг при сохранении композиции тела</li>
+                            <li><strong>Стабильный прогресс:</strong> еженедельные прибавки без застоев</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
     <script>
         // Инициализация данных
         let workouts = JSON.parse(localStorage.getItem('workouts') || '[]');
         let userStats = JSON.parse(localStorage.getItem('userStats') || '{"currentWeight": 92, "benchMax": 75}');
+        let personalRecords = JSON.parse(localStorage.getItem('personalRecords') || '{}');
+        let recentRecords = JSON.parse(localStorage.getItem('recentRecords') || '[]');
+        let mainChart = null;
+
+        // Функции для работы с персональными рекордами
+        function parseWeight(setString) {
+            // Парсим различные форматы записи: "80x5", "80 x 5", "80кг x 5", "80*5", etc.
+            const patterns = [
+                /(\d+(?:\.\d+)?)\s*[x*×]\s*\d+/i,  // 80x5, 80*5, 80×5
+                /(\d+(?:\.\d+)?)\s*кг/i,            // 80кг
+                /(\d+(?:\.\d+)?)\s*kg/i,            // 80kg
+                /^(\d+(?:\.\d+)?)$/                 // просто число
+            ];
+            
+            for (let pattern of patterns) {
+                const match = setString.match(pattern);
+                if (match) {
+                    return parseFloat(match[1]);
+                }
+            }
+            return 0;
+        }
+
+        function findPersonalRecords() {
+            const records = {};
+            
+            workouts.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    const exerciseName = exercise.name.trim();
+                    if (!exerciseName) return;
+                    
+                    exercise.sets.forEach(set => {
+                        const weight = parseWeight(set);
+                        if (weight > 0) {
+                            if (!records[exerciseName] || weight > records[exerciseName].weight) {
+                                records[exerciseName] = {
+                                    weight: weight,
+                                    date: workout.date,
+                                    set: set,
+                                    workoutId: workout.id
+                                };
+                            }
+                        }
+                    });
+                });
+            });
+            
+            return records;
+        }
+
+        function checkForNewRecords(newWorkout) {
+            const newRecords = [];
+            const currentRecords = findPersonalRecords();
+            
+            newWorkout.exercises.forEach(exercise => {
+                const exerciseName = exercise.name.trim();
+                if (!exerciseName) return;
+                
+                exercise.sets.forEach(set => {
+                    const weight = parseWeight(set);
+                    if (weight > 0) {
+                        const oldRecord = personalRecords[exerciseName];
+                        if (!oldRecord || weight > oldRecord.weight) {
+                            newRecords.push({
+                                exercise: exerciseName,
+                                oldWeight: oldRecord ? oldRecord.weight : 0,
+                                newWeight: weight,
+                                date: newWorkout.date,
+                                set: set
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Обновляем рекорды
+            personalRecords = currentRecords;
+            localStorage.setItem('personalRecords', JSON.stringify(personalRecords));
+            
+            // Добавляем новые рекорды в историю
+            if (newRecords.length > 0) {
+                recentRecords = [...newRecords, ...recentRecords].slice(0, 20); // Храним последние 20
+                localStorage.setItem('recentRecords', JSON.stringify(recentRecords));
+                showRecordNotifications(newRecords);
+            }
+            
+            return newRecords;
+        }
+
+        function showRecordNotifications(newRecords) {
+            newRecords.forEach((record, index) => {
+                setTimeout(() => {
+                    const notification = document.createElement('div');
+                    notification.className = 'record-notification';
+                    notification.innerHTML = `
+                        <span class="record-trophy">🏆</span>
+                        Новый рекорд в ${record.exercise}!<br>
+                        <strong>${record.newWeight} кг</strong> 
+                        ${record.oldWeight > 0 ? `(было: ${record.oldWeight} кг, +${(record.newWeight - record.oldWeight).toFixed(1)} кг)` : '(первый рекорд!)'}
+                    `;
+                    
+                    const form = document.querySelector('.workout-form');
+                    form.insertBefore(notification, form.firstChild);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 5000);
+                }, index * 1000);
+            });
+        }
+
+        function updateRecordsView() {
+            const view = document.getElementById('recordsView').value;
+            const sort = document.getElementById('recordsSort').value;
+            
+            displayPersonalRecords(view, sort);
+        }
+
+        function displayPersonalRecords(view = 'all', sort = 'weight') {
+            const recordsList = document.getElementById('recordsList');
+            const records = findPersonalRecords();
+            
+            if (Object.keys(records).length === 0) {
+                recordsList.innerHTML = '<div class="no-data">Добавьте несколько тренировок для отслеживания рекордов</div>';
+                return;
+            }
+            
+            // Фильтрация
+            let filteredRecords = Object.entries(records);
+            
+            if (view === 'main') {
+                const mainExercises = ['жим лежа', 'становая', 'присед', 'тяга', 'жим'];
+                filteredRecords = filteredRecords.filter(([name]) => 
+                    mainExercises.some(exercise => name.toLowerCase().includes(exercise))
+                );
+            } else if (view === 'recent') {
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                filteredRecords = filteredRecords.filter(([, record]) => 
+                    new Date(record.date) > thirtyDaysAgo
+                );
+            }
+            
+            // Сортировка
+            filteredRecords.sort(([nameA, recordA], [nameB, recordB]) => {
+                switch(sort) {
+                    case 'weight':
+                        return recordB.weight - recordA.weight;
+                    case 'date':
+                        return new Date(recordB.date) - new Date(recordA.date);
+                    case 'name':
+                        return nameA.localeCompare(nameB);
+                    default:
+                        return 0;
+                }
+            });
+            
+            recordsList.innerHTML = filteredRecords.map(([exerciseName, record]) => {
+                const isRecent = recentRecords.some(r => 
+                    r.exercise === exerciseName && r.newWeight === record.weight
+                );
+                
+                return `
+                    <div class="record-item ${isRecent ? 'new-record' : ''}">
+                        <div class="record-exercise">
+                            <span>${exerciseName}</span>
+                            <span class="record-weight">${record.weight} кг</span>
+                        </div>
+                        <div class="record-details">
+                            <div class="record-detail">
+                                <div class="record-detail-value">${new Date(record.date).toLocaleDateString('ru-RU')}</div>
+                                <div class="record-detail-label">Дата</div>
+                            </div>
+                            <div class="record-detail">
+                                <div class="record-detail-value">${record.set}</div>
+                                <div class="record-detail-label">Подход</div>
+                            </div>
+                            <div class="record-detail">
+                                <div class="record-detail-value">${Math.ceil((new Date() - new Date(record.date)) / (1000 * 60 * 60 * 24))}</div>
+                                <div class="record-detail-label">Дней назад</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayRecentRecords() {
+            const recentRecordsContainer = document.getElementById('recentRecords');
+            
+            if (recentRecords.length === 0) {
+                recentRecordsContainer.innerHTML = '<div class="no-data">Новые рекорды будут отображаться здесь</div>';
+                return;
+            }
+            
+            recentRecordsContainer.innerHTML = recentRecords.slice(0, 10).map(record => `
+                <div class="record-item new-record">
+                    <div class="record-exercise">
+                        <span>${record.exercise}</span>
+                        <span class="record-weight">${record.newWeight} кг</span>
+                    </div>
+                    <div class="record-details">
+                        <div class="record-detail">
+                            <div class="record-detail-value">${new Date(record.date).toLocaleDateString('ru-RU')}</div>
+                            <div class="record-detail-label">Дата</div>
+                        </div>
+                        <div class="record-detail">
+                            <div class="record-detail-value">${record.oldWeight > 0 ? `+${(record.newWeight - record.oldWeight).toFixed(1)} кг` : 'Первый!'}</div>
+                            <div class="record-detail-label">Прогресс</div>
+                        </div>
+                        <div class="record-detail">
+                            <div class="record-detail-value">${record.set}</div>
+                            <div class="record-detail-label">Подход</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateTopRecords() {
+            const records = findPersonalRecords();
+            
+            // Жим лежа
+            const benchRecord = Object.entries(records).find(([name]) => 
+                name.toLowerCase().includes('жим') && name.toLowerCase().includes('лежа')
+            );
+            if (benchRecord) {
+                document.getElementById('benchPR').textContent = benchRecord[1].weight + ' кг';
+                document.getElementById('benchPRDate').textContent = new Date(benchRecord[1].date).toLocaleDateString('ru-RU');
+            } else {
+                document.getElementById('benchPR').textContent = '-';
+                document.getElementById('benchPRDate').textContent = '-';
+            }
+            
+            // Становая тяга
+            const deadliftRecord = Object.entries(records).find(([name]) => 
+                name.toLowerCase().includes('становая') || name.toLowerCase().includes('тяга') && !name.toLowerCase().includes('горизонт')
+            );
+            if (deadliftRecord) {
+                document.getElementById('deadliftPR').textContent = deadliftRecord[1].weight + ' кг';
+                document.getElementById('deadliftPRDate').textContent = new Date(deadliftRecord[1].date).toLocaleDateString('ru-RU');
+            } else {
+                document.getElementById('deadliftPR').textContent = '-';
+                document.getElementById('deadliftPRDate').textContent = '-';
+            }
+            
+            // Приседания
+            const squatRecord = Object.entries(records).find(([name]) => 
+                name.toLowerCase().includes('присед') || name.toLowerCase().includes('гакк')
+            );
+            if (squatRecord) {
+                document.getElementById('squatPR').textContent = squatRecord[1].weight + ' кг';
+                document.getElementById('squatPRDate').textContent = new Date(squatRecord[1].date).toLocaleDateString('ru-RU');
+            } else {
+                document.getElementById('squatPR').textContent = '-';
+                document.getElementById('squatPRDate').textContent = '-';
+            }
+            
+            // Общее количество рекордов
+            document.getElementById('totalRecords').textContent = Object.keys(records).length;
+        }
+
+        function initializeRecords() {
+            personalRecords = findPersonalRecords();
+            localStorage.setItem('personalRecords', JSON.stringify(personalRecords));
+            updateTopRecords();
+            displayPersonalRecords();
+            displayRecentRecords();
+        }
+
+        // Аналитические функции
+        function initializeAnalytics() {
+            populateExerciseFilter();
+            updateChart();
+            updateAnalyticsStats();
+            generateActivityCalendar();
+            updateExerciseProgress();
+        }
+
+        function populateExerciseFilter() {
+            const exerciseFilter = document.getElementById('exerciseFilter');
+            const exercises = new Set();
+            
+            workouts.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    exercises.add(exercise.name);
+                });
+            });
+            
+            // Очищаем и добавляем опции
+            exerciseFilter.innerHTML = '<option value="all">Все упражнения</option>';
+            exercises.forEach(exercise => {
+                const option = document.createElement('option');
+                option.value = exercise;
+                option.textContent = exercise;
+                exerciseFilter.appendChild(option);
+            });
+        }
+
+        function updateChart() {
+            const chartType = document.getElementById('chartType').value;
+            const timePeriod = document.getElementById('timePeriod').value;
+            const exerciseFilter = document.getElementById('exerciseFilter').value;
+            
+            // Фильтруем данные по времени
+            const now = new Date();
+            const filtered = workouts.filter(workout => {
+                if (timePeriod === 'all') return true;
+                const workoutDate = new Date(workout.date);
+                const daysDiff = (now - workoutDate) / (1000 * 60 * 60 * 24);
+                return daysDiff <= parseInt(timePeriod);
+            }).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            let chartData, chartConfig;
+            
+            switch(chartType) {
+                case 'weight':
+                    chartData = generateWeightChartData(filtered);
+                    chartConfig = createLineChartConfig(chartData, 'Вес тела (кг)', 'rgba(198, 123, 92, 0.8)');
+                    break;
+                case 'bench':
+                    chartData = generateBenchChartData(filtered);
+                    chartConfig = createLineChartConfig(chartData, 'Максимальный вес жима (кг)', 'rgba(143, 166, 142, 0.8)');
+                    break;
+                case 'volume':
+                    chartData = generateVolumeChartData(filtered);
+                    chartConfig = createBarChartConfig(chartData, 'Общий объем (подходы)', 'rgba(198, 123, 92, 0.6)');
+                    break;
+                case 'frequency':
+                    chartData = generateFrequencyChartData(filtered);
+                    chartConfig = createLineChartConfig(chartData, 'Тренировок в неделю', 'rgba(143, 166, 142, 0.8)');
+                    break;
+            }
+            
+            renderChart(chartConfig);
+        }
+
+        function generateWeightChartData(workouts) {
+            const data = workouts
+                .filter(w => w.bodyWeight)
+                .map(w => ({
+                    x: w.date,
+                    y: w.bodyWeight
+                }));
+            
+            return {
+                labels: data.map(d => new Date(d.x).toLocaleDateString('ru-RU')),
+                datasets: [{
+                    data: data.map(d => d.y),
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            };
+        }
+
+        function generateBenchChartData(workouts) {
+            const data = [];
+            
+            workouts.forEach(workout => {
+                let maxWeight = 0;
+                workout.exercises.forEach(exercise => {
+                    if (exercise.name.toLowerCase().includes('жим') && exercise.name.toLowerCase().includes('лежа')) {
+                        exercise.sets.forEach(set => {
+                            const match = set.match(/(\d+)/);
+                            if (match) {
+                                const weight = parseInt(match[1]);
+                                if (weight > maxWeight) {
+                                    maxWeight = weight;
+                                }
+                            }
+                        });
+                    }
+                });
+                
+                if (maxWeight > 0) {
+                    data.push({
+                        x: workout.date,
+                        y: maxWeight
+                    });
+                }
+            });
+            
+            return {
+                labels: data.map(d => new Date(d.x).toLocaleDateString('ru-RU')),
+                datasets: [{
+                    data: data.map(d => d.y),
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            };
+        }
+
+        function generateVolumeChartData(workouts) {
+            const weeklyData = {};
+            
+            workouts.forEach(workout => {
+                const date = new Date(workout.date);
+                const weekStart = new Date(date - date.getDay() * 24 * 60 * 60 * 1000);
+                const weekKey = weekStart.toISOString().split('T')[0];
+                
+                if (!weeklyData[weekKey]) {
+                    weeklyData[weekKey] = 0;
+                }
+                
+                workout.exercises.forEach(exercise => {
+                    weeklyData[weekKey] += exercise.sets.length;
+                });
+            });
+            
+            const sortedWeeks = Object.keys(weeklyData).sort();
+            
+            return {
+                labels: sortedWeeks.map(date => new Date(date).toLocaleDateString('ru-RU')),
+                datasets: [{
+                    data: sortedWeeks.map(week => weeklyData[week])
+                }]
+            };
+        }
+
+        function generateFrequencyChartData(workouts) {
+            const weeklyData = {};
+            
+            workouts.forEach(workout => {
+                const date = new Date(workout.date);
+                const weekStart = new Date(date - date.getDay() * 24 * 60 * 60 * 1000);
+                const weekKey = weekStart.toISOString().split('T')[0];
+                
+                if (!weeklyData[weekKey]) {
+                    weeklyData[weekKey] = 0;
+                }
+                weeklyData[weekKey]++;
+            });
+            
+            const sortedWeeks = Object.keys(weeklyData).sort();
+            
+            return {
+                labels: sortedWeeks.map(date => new Date(date).toLocaleDateString('ru-RU')),
+                datasets: [{
+                    data: sortedWeeks.map(week => weeklyData[week]),
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            };
+        }
+
+        function createLineChartConfig(data, label, color) {
+            return {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: label,
+                        data: data.datasets[0].data,
+                        borderColor: color,
+                        backgroundColor: color.replace('0.8', '0.1'),
+                        tension: data.datasets[0].tension,
+                        pointRadius: data.datasets[0].pointRadius,
+                        pointHoverRadius: data.datasets[0].pointHoverRadius,
+                        pointBackgroundColor: color,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(140, 118, 98, 0.1)'
+                            },
+                            ticks: {
+                                color: '#4A4A4A'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(140, 118, 98, 0.1)'
+                            },
+                            ticks: {
+                                color: '#4A4A4A'
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        function createBarChartConfig(data, label, color) {
+            return {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: label,
+                        data: data.datasets[0].data,
+                        backgroundColor: color,
+                        borderColor: color.replace('0.6', '1'),
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(140, 118, 98, 0.1)'
+                            },
+                            ticks: {
+                                color: '#4A4A4A'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(140, 118, 98, 0.1)'
+                            },
+                            ticks: {
+                                color: '#4A4A4A'
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        function renderChart(config) {
+            const ctx = document.getElementById('mainChart');
+            if (!ctx) return;
+            
+            if (mainChart) {
+                mainChart.destroy();
+            }
+            
+            // Проверяем есть ли данные для отображения
+            if (!config.data.datasets[0].data || config.data.datasets[0].data.length === 0) {
+                const container = ctx.parentElement;
+                container.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-medium); font-size: 1.1em;">
+                        Недостаточно данных для построения графика<br>
+                        <small style="margin-top: 10px; opacity: 0.7;">Добавьте несколько тренировок для отображения прогресса</small>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Восстанавливаем canvas если он был заменен
+            if (!ctx.getContext) {
+                const container = ctx.parentElement || document.querySelector('.chart-container');
+                container.innerHTML = '<canvas id="mainChart" width="400" height="200"></canvas>';
+                const newCtx = document.getElementById('mainChart');
+                mainChart = new Chart(newCtx, config);
+            } else {
+                mainChart = new Chart(ctx, config);
+            }
+        }
+
+        function updateAnalyticsStats() {
+            if (workouts.length === 0) {
+                document.getElementById('avgWeight').textContent = '-';
+                document.getElementById('maxBench').textContent = '-';
+                document.getElementById('totalSets').textContent = '-';
+                document.getElementById('avgFrequency').textContent = '-';
+                return;
+            }
+            
+            // Средний вес
+            const weights = workouts.filter(w => w.bodyWeight).map(w => w.bodyWeight);
+            const avgWeight = weights.length > 0 ? (weights.reduce((a, b) => a + b, 0) / weights.length).toFixed(1) : '-';
+            document.getElementById('avgWeight').textContent = avgWeight + (avgWeight !== '-' ? ' кг' : '');
+            
+            // Максимальный жим
+            let maxBench = 0;
+            workouts.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    if (exercise.name.toLowerCase().includes('жим') && exercise.name.toLowerCase().includes('лежа')) {
+                        exercise.sets.forEach(set => {
+                            const match = set.match(/(\d+)/);
+                            if (match) {
+                                const weight = parseInt(match[1]);
+                                if (weight > maxBench) {
+                                    maxBench = weight;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+            document.getElementById('maxBench').textContent = maxBench > 0 ? maxBench + ' кг' : '-';
+            
+            // Общее количество подходов
+            let totalSets = 0;
+            workouts.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    totalSets += exercise.sets.length;
+                });
+            });
+            document.getElementById('totalSets').textContent = totalSets;
+            
+            // Средняя частота тренировок
+            if (workouts.length > 1) {
+                const firstDate = new Date(workouts[workouts.length - 1].date);
+                const lastDate = new Date(workouts[0].date);
+                const daysDiff = (lastDate - firstDate) / (1000 * 60 * 60 * 24);
+                const avgFrequency = daysDiff > 0 ? ((workouts.length - 1) / (daysDiff / 7)).toFixed(1) : '0';
+                document.getElementById('avgFrequency').textContent = avgFrequency;
+            } else {
+                document.getElementById('avgFrequency').textContent = '-';
+            }
+        }
+
+        function updateExerciseProgress() {
+            const exerciseStats = {};
+            
+            workouts.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    if (!exerciseStats[exercise.name]) {
+                        exerciseStats[exercise.name] = {
+                            count: 0,
+                            totalSets: 0,
+                            maxWeight: 0,
+                            firstDate: workout.date,
+                            lastDate: workout.date
+                        };
+                    }
+                    
+                    const stats = exerciseStats[exercise.name];
+                    stats.count++;
+                    stats.totalSets += exercise.sets.length;
+                    
+                    if (new Date(workout.date) < new Date(stats.firstDate)) {
+                        stats.firstDate = workout.date;
+                    }
+                    if (new Date(workout.date) > new Date(stats.lastDate)) {
+                        stats.lastDate = workout.date;
+                    }
+                    
+                    exercise.sets.forEach(set => {
+                        const match = set.match(/(\d+)/);
+                        if (match) {
+                            const weight = parseInt(match[1]);
+                            if (weight > stats.maxWeight) {
+                                stats.maxWeight = weight;
+                            }
+                        }
+                    });
+                });
+            });
+            
+            const exerciseProgressList = document.getElementById('exerciseProgressList');
+            
+            if (Object.keys(exerciseStats).length === 0) {
+                exerciseProgressList.innerHTML = '<div class="no-data">Данных пока недостаточно для анализа</div>';
+                return;
+            }
+            
+            exerciseProgressList.innerHTML = Object.entries(exerciseStats)
+                .sort(([,a], [,b]) => b.count - a.count)
+                .map(([name, stats]) => `
+                    <div class="exercise-progress-item">
+                        <div class="exercise-name">${name}</div>
+                        <div class="exercise-stats">
+                            <div class="exercise-stat">
+                                <div class="exercise-stat-value">${stats.count}</div>
+                                <div class="exercise-stat-label">Тренировок</div>
+                            </div>
+                            <div class="exercise-stat">
+                                <div class="exercise-stat-value">${stats.totalSets}</div>
+                                <div class="exercise-stat-label">Подходов</div>
+                            </div>
+                            <div class="exercise-stat">
+                                <div class="exercise-stat-value">${stats.maxWeight || '-'}</div>
+                                <div class="exercise-stat-label">Макс. вес</div>
+                            </div>
+                            <div class="exercise-stat">
+                                <div class="exercise-stat-value">${Math.ceil((new Date(stats.lastDate) - new Date(stats.firstDate)) / (1000 * 60 * 60 * 24)) || 0}</div>
+                                <div class="exercise-stat-label">Дней</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        function generateActivityCalendar() {
+            const activityGrid = document.getElementById('activityGrid');
+            const now = new Date();
+            const startDate = new Date(now.getFullYear(), now.getMonth() - 3, 1); // Последние 3 месяца
+            
+            // Создаем календарь
+            let html = '';
+            const currentDate = new Date(startDate);
+            
+            // Заголовки дней недели
+            const dayHeaders = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+            html += dayHeaders.map(day => `<div style="text-align: center; font-size: 0.7em; color: var(--text-medium); margin-bottom: 5px;">${day}</div>`).join('');
+            
+            // Генерируем дни
+            while (currentDate <= now) {
+                const dateStr = currentDate.toISOString().split('T')[0];
+                const hasWorkout = workouts.some(w => w.date === dateStr);
+                const workoutCount = workouts.filter(w => w.date === dateStr).length;
+                
+                const dayClass = hasWorkout ? (workoutCount > 1 ? 'has-workout high-intensity' : 'has-workout') : '';
+                html += `<div class="activity-day ${dayClass}" title="${currentDate.toLocaleDateString('ru-RU')}${hasWorkout ? ` - ${workoutCount} тренировка` : ''}"></div>`;
+                
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            activityGrid.innerHTML = html;
+            
+            // Добавляем легенду
+            const legend = `
+                <div class="activity-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--cream);"></div>
+                        <span>Нет тренировок</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--coral-primary);"></div>
+                        <span>Тренировка</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--sage-green);"></div>
+                        <span>Несколько тренировок</span>
+                    </div>
+                </div>
+            `;
+            activityGrid.insertAdjacentHTML('afterend', legend);
+        }
+
+        // Анимация загрузки
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelector('.container').style.opacity = '1';
+            }, 100);
+        });
 
         // Установка текущей даты
         document.getElementById('workoutDate').value = new Date().toISOString().split('T')[0];
@@ -407,6 +1812,10 @@
             
             if (tabName === 'history') {
                 loadWorkoutHistory();
+            } else if (tabName === 'analytics') {
+                setTimeout(() => {
+                    initializeAnalytics();
+                }, 100); // Небольшая задержка для корректного рендера графика
             }
         }
 
@@ -417,8 +1826,8 @@
             exerciseDiv.className = 'exercise-group';
             exerciseDiv.innerHTML = `
                 <h3>
-                    <input type="text" placeholder="Название упражнения" style="border: none; background: transparent; font-size: 1.1em; font-weight: bold;">
-                    <button onclick="this.parentElement.parentElement.remove()" style="float: right; background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">✕</button>
+                    <input type="text" placeholder="Название упражнения" style="border: none; background: transparent; font-size: 1.1em; font-weight: 600; width: calc(100% - 50px);">
+                    <button onclick="this.parentElement.parentElement.remove()" class="remove-exercise">✕</button>
                 </h3>
                 <div class="sets-container">
                     <input type="text" placeholder="Подход 1 (вес×повторы)" />
@@ -428,6 +1837,15 @@
                 </div>
             `;
             exercisesContainer.appendChild(exerciseDiv);
+            
+            // Анимация появления
+            exerciseDiv.style.opacity = '0';
+            exerciseDiv.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                exerciseDiv.style.transition = 'all 0.3s ease';
+                exerciseDiv.style.opacity = '1';
+                exerciseDiv.style.transform = 'translateY(0)';
+            }, 10);
         }
 
         // Сохранение тренировки
@@ -459,16 +1877,28 @@
                 }
             });
 
+            if (workoutData.exercises.length === 0) {
+                showMessage('Добавьте хотя бы одно упражнение!', 'error');
+                return;
+            }
+
             workouts.unshift(workoutData);
             localStorage.setItem('workouts', JSON.stringify(workouts));
 
             // Обновление статистики
             updateStats();
             
-            alert('Тренировка сохранена!');
+            // Обновляем аналитику если она открыта
+            if (document.getElementById('analytics-tab').classList.contains('active')) {
+                populateExerciseFilter();
+                initializeAnalytics();
+            }
+            
+            showMessage('Тренировка успешно сохранена!');
             
             // Очистка формы
             document.getElementById('workoutNotes').value = '';
+            document.getElementById('bodyWeight').value = '';
             document.querySelectorAll('.sets-container input').forEach(input => input.value = '');
         }
 
@@ -477,13 +1907,18 @@
             const workoutList = document.getElementById('workoutList');
             
             if (workouts.length === 0) {
-                workoutList.innerHTML = '<p>Пока нет сохраненных тренировок</p>';
+                workoutList.innerHTML = `
+                    <div class="no-workouts">
+                        <p>Пока нет сохраненных тренировок</p>
+                        <p>Начните с добавления первой тренировки во вкладке "Новая тренировка"</p>
+                    </div>
+                `;
                 return;
             }
 
             workoutList.innerHTML = workouts.map(workout => `
                 <div class="workout-entry">
-                    <div class="workout-date">${new Date(workout.date).toLocaleDateString('ru-RU')}</div>
+                    <div class="workout-date">${formatDate(workout.date)}</div>
                     <p><strong>Тип:</strong> ${getWorkoutTypeName(workout.type)}</p>
                     ${workout.bodyWeight ? `<p><strong>Вес тела:</strong> ${workout.bodyWeight} кг</p>` : ''}
                     ${workout.exercises.map(exercise => `
@@ -493,18 +1928,26 @@
                         </div>
                     `).join('')}
                     ${workout.notes ? `<p><strong>Заметки:</strong> ${workout.notes}</p>` : ''}
-                    <button onclick="deleteWorkout(${workout.id})" style="background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; float: right;">Удалить</button>
+                    <button onclick="deleteWorkout(${workout.id})" class="delete-btn">Удалить</button>
+                    <div style="clear: both;"></div>
                 </div>
             `).join('');
         }
 
         // Удаление тренировки
         function deleteWorkout(id) {
-            if (confirm('Удалить эту тренировку?')) {
+            if (confirm('Вы уверены, что хотите удалить эту тренировку?')) {
                 workouts = workouts.filter(w => w.id !== id);
                 localStorage.setItem('workouts', JSON.stringify(workouts));
                 loadWorkoutHistory();
                 updateStats();
+                
+                // Обновляем аналитику если она открыта
+                if (document.getElementById('analytics-tab').classList.contains('active')) {
+                    populateExerciseFilter();
+                    initializeAnalytics();
+                }
+                showMessage('Тренировка удалена', 'info');
             }
         }
 
@@ -517,7 +1960,46 @@
                 if (latestWeight) {
                     document.getElementById('currentWeight').textContent = latestWeight;
                 }
+                
+                // Попытка найти максимальный жим из записей
+                let maxBench = 75; // начальное значение
+                workouts.forEach(workout => {
+                    workout.exercises.forEach(exercise => {
+                        if (exercise.name.toLowerCase().includes('жим') && exercise.name.toLowerCase().includes('лежа')) {
+                            exercise.sets.forEach(set => {
+                                const match = set.match(/(\d+).*?(\d+)/);
+                                if (match) {
+                                    const weight = parseInt(match[1]);
+                                    if (weight > maxBench) {
+                                        maxBench = weight;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+                document.getElementById('benchMax').textContent = maxBench;
             }
+        }
+
+        // Показать сообщение
+        function showMessage(text, type = 'success') {
+            const message = document.createElement('div');
+            message.className = 'success-message';
+            message.textContent = text;
+            
+            if (type === 'error') {
+                message.style.background = 'linear-gradient(135deg, #ff4757, #ff3838)';
+            } else if (type === 'info') {
+                message.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+            }
+            
+            const form = document.querySelector('.workout-form');
+            form.insertBefore(message, form.firstChild);
+            
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
         }
 
         // Получение названия типа тренировки
@@ -530,8 +2012,29 @@
             return types[type] || type;
         }
 
+        // Форматирование даты
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
         // Инициализация при загрузке
         updateStats();
+        
+        // Добавляем интерактивность к статистическим карточкам
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
     </script>
 </body>
 </html>
