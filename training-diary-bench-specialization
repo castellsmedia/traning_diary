@@ -1,134 +1,4 @@
-        
-        // Рендер заметок тренера
-        function renderTrainerNotes() {
-            var container = document.getElementById('trainer-notes');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            var periodData = getPeriodData();
-            var notes = [];
-            
-            // Анализ тренировок
-            if (periodData.workouts > 0) {
-                if (periodData.workouts >= 3) {
-                    notes.push('✓ Хорошая частота тренировок: ' + periodData.workouts + ' сессий за период');
-                } else if (periodData.workouts >= 1) {
-                    notes.push('⚠️ Тренировок мало: ' + periodData.workouts + ' сессий. Цель 3+ в неделю');
-                } else {
-                    notes.push('❌ Нет тренировок за период. Нужно вернуться в зал!');
-                }
-            }
-            
-            // Поиск последнего жима
-            var lastBenchE1RM = 0;
-            for (var i = DATA.length - 1; i >= 0; i--) {
-                if (DATA[i].events) {
-                    for (var j = 0; j < DATA[i].events.length; j++) {
-                        var event = DATA[i].events[j];
-                        if (event.kind === 'workout' && event.lift === 'bench' && event.e1rm) {
-                            lastBenchE1RM = event.e1rm;
-                            break;
-                        }
-                    }
-                }
-                if (lastBenchE1RM > 0) break;
-            }
-            
-            // Анализ жима лежа
-            if (lastBenchE1RM > 0) {
-                if (lastBenchE1RM >= 80) {
-                    notes.push('🔥 Отличный жим: ' + lastBenchE1RM + 'кг e1RM');
-                } else if (lastBenchE1RM >= 60) {
-                    notes.push('💪 Хороший прогресс в жиме: ' + lastBenchE1RM + 'кг e1RM');
-                } else {
-                    notes.push('📈 Начальный уровень жима: ' + lastBenchE1RM + 'кг e1RM');
-                }
-                
-                var progressToGoal = ((lastBenchE1RM / 100) * 100).toFixed(1);
-                notes.push('🎯 Прогресс к цели 100кг: ' + progressToGoal + '%');
-            } else {
-                notes.push('⚡ Нужен тест максимума в жиме лежа для оценки силы');
-            }
-            
-            // Рекомендации по системе 2019-2020
-            notes.push('📋 План на завтра (14.08): ДЕНЬ 1 - Грудь + Плечи + Трицепс');
-            notes.push('🎯 Жим лёжа: 60кг 4×4 (негатив 5 сек + пауза 2 сек)');
-            notes.push('⏰ Цель на 4 недели: довести жим до 75-80кг');
-            notes.push('📊 Прогрессия: +2.5кг каждую неделю при правильной технике');
-            notes.push('💪 Система 2019-2020: волновая периодизация + специализация на жиме');
-            notes.push('🔥 Ведите подробный дневник - это ключ к прогрессу!');
-            
-            notes.forEach(function(note) {
-                var div = document.createElement('div');
-                div.style.marginBottom = '12px';
-                div.style.lineHeight = '1.6';
-                div.innerHTML = note;
-                container.appendChild(div);
-            });
-        }
-        
-        // Рендер заметок нутрициолога для сводки
-        function renderNutritionistNotesSummary() {
-            var container = document.getElementById('nutritionist-notes-summary');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            var periodData = getPeriodData();
-            var notes = [];
-            
-            // Анализ белка
-            if (periodData.avgProtein > 0) {
-                var targetProtein = 165; // ~1.8г/кг для 92кг
-                if (periodData.avgProtein < targetProtein * 0.9) {
-                    notes.push('⚠️ Белка маловато: ' + periodData.avgProtein + 'г в день. Цель ~' + targetProtein + 'г');
-                } else if (periodData.avgProtein > targetProtein * 1.1) {
-                    notes.push('✓ Белка достаточно: ' + periodData.avgProtein + 'г в день');
-                } else {
-                    notes.push('✓ Белок в норме: ' + periodData.avgProtein + 'г в день');
-                }
-            }
-            
-            // Анализ жиров
-            if (periodData.avgFat > 0) {
-                var targetFatMin = 55; // 0.6г/кг
-                var targetFatMax = 83; // 0.9г/кг
-                if (periodData.avgFat < targetFatMin) {
-                    notes.push('⚠️ Жиров мало: ' + periodData.avgFat + 'г. Минимум ' + targetFatMin + 'г');
-                } else if (periodData.avgFat > targetFatMax) {
-                    notes.push('⚠️ Жиров многовато: ' + periodData.avgFat + 'г. Максимум ' + targetFatMax + 'г');
-                } else {
-                    notes.push('✓ Жиры в норме: ' + periodData.avgFat + 'г в день');
-                }
-            }
-            
-            // Анализ калорий
-            if (periodData.avgKcal > 0) {
-                var targetKcal = 2200;
-                var diff = Math.abs(periodData.avgKcal - targetKcal);
-                if (diff <= 200) {
-                    notes.push('✓ Калории близки к цели: ' + periodData.avgKcal + ' ккал');
-                } else if (periodData.avgKcal < targetKcal) {
-                    notes.push('⚠️ Недоедание: -' + diff + ' ккал от цели');
-                } else {
-                    notes.push('⚠️ Переедание: +' + diff + ' ккал от цели');
-                }
-            }
-            
-            // Подсказки
-            notes.push('💡 Перед тяжелым жимом: быстрые углеводы за 60-90 минут');
-            notes.push('💡 После тренировки: белок + углеводы в течение 30 минут');
-            notes.push('💡 Голодание в воскресенье: отличная практика для метаболизма');
-            
-            notes.forEach(function(note) {
-                var div = document.createElement('div');
-                div.style.marginBottom = '12px';
-                div.style.lineHeight = '1.6';
-                div.innerHTML = note;
-                container.appendChild(div);
-            });
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -2138,6 +2008,138 @@
             });
         }
         
+        
+        // Рендер заметок тренера
+        function renderTrainerNotes() {
+            var container = document.getElementById('trainer-notes');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            var periodData = getPeriodData();
+            var notes = [];
+            
+            // Анализ тренировок
+            if (periodData.workouts > 0) {
+                if (periodData.workouts >= 3) {
+                    notes.push('✓ Хорошая частота тренировок: ' + periodData.workouts + ' сессий за период');
+                } else if (periodData.workouts >= 1) {
+                    notes.push('⚠️ Тренировок мало: ' + periodData.workouts + ' сессий. Цель 3+ в неделю');
+                } else {
+                    notes.push('❌ Нет тренировок за период. Нужно вернуться в зал!');
+                }
+            }
+            
+            // Поиск последнего жима
+            var lastBenchE1RM = 0;
+            for (var i = DATA.length - 1; i >= 0; i--) {
+                if (DATA[i].events) {
+                    for (var j = 0; j < DATA[i].events.length; j++) {
+                        var event = DATA[i].events[j];
+                        if (event.kind === 'workout' && event.lift === 'bench' && event.e1rm) {
+                            lastBenchE1RM = event.e1rm;
+                            break;
+                        }
+                    }
+                }
+                if (lastBenchE1RM > 0) break;
+            }
+            
+            // Анализ жима лежа
+            if (lastBenchE1RM > 0) {
+                if (lastBenchE1RM >= 80) {
+                    notes.push('🔥 Отличный жим: ' + lastBenchE1RM + 'кг e1RM');
+                } else if (lastBenchE1RM >= 60) {
+                    notes.push('💪 Хороший прогресс в жиме: ' + lastBenchE1RM + 'кг e1RM');
+                } else {
+                    notes.push('📈 Начальный уровень жима: ' + lastBenchE1RM + 'кг e1RM');
+                }
+                
+                var progressToGoal = ((lastBenchE1RM / 100) * 100).toFixed(1);
+                notes.push('🎯 Прогресс к цели 100кг: ' + progressToGoal + '%');
+            } else {
+                notes.push('⚡ Нужен тест максимума в жиме лежа для оценки силы');
+            }
+            
+            // Рекомендации по системе 2019-2020
+            notes.push('📋 План на завтра (14.08): ДЕНЬ 1 - Грудь + Плечи + Трицепс');
+            notes.push('🎯 Жим лёжа: 60кг 4×4 (негатив 5 сек + пауза 2 сек)');
+            notes.push('⏰ Цель на 4 недели: довести жим до 75-80кг');
+            notes.push('📊 Прогрессия: +2.5кг каждую неделю при правильной технике');
+            notes.push('💪 Система 2019-2020: волновая периодизация + специализация на жиме');
+            notes.push('🔥 Ведите подробный дневник - это ключ к прогрессу!');
+            
+            notes.forEach(function(note) {
+                var div = document.createElement('div');
+                div.style.marginBottom = '12px';
+                div.style.lineHeight = '1.6';
+                div.innerHTML = note;
+                container.appendChild(div);
+            });
+        }
+
+        // Рендер заметок нутрициолога для сводки
+        function renderNutritionistNotesSummary() {
+            var container = document.getElementById('nutritionist-notes-summary');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            var periodData = getPeriodData();
+            var notes = [];
+            
+            // Анализ белка
+            if (periodData.avgProtein > 0) {
+                var targetProtein = 165; // ~1.8г/кг для 92кг
+                if (periodData.avgProtein < targetProtein * 0.9) {
+                    notes.push('⚠️ Белка маловато: ' + periodData.avgProtein + 'г в день. Цель ~' + targetProtein + 'г');
+                } else if (periodData.avgProtein > targetProtein * 1.1) {
+                    notes.push('✓ Белка достаточно: ' + periodData.avgProtein + 'г в день');
+                } else {
+                    notes.push('✓ Белок в норме: ' + periodData.avgProtein + 'г в день');
+                }
+            }
+            
+            // Анализ жиров
+            if (periodData.avgFat > 0) {
+                var targetFatMin = 55; // 0.6г/кг
+                var targetFatMax = 83; // 0.9г/кг
+                if (periodData.avgFat < targetFatMin) {
+                    notes.push('⚠️ Жиров мало: ' + periodData.avgFat + 'г. Минимум ' + targetFatMin + 'г');
+                } else if (periodData.avgFat > targetFatMax) {
+                    notes.push('⚠️ Жиров многовато: ' + periodData.avgFat + 'г. Максимум ' + targetFatMax + 'г');
+                } else {
+                    notes.push('✓ Жиры в норме: ' + periodData.avgFat + 'г в день');
+                }
+            }
+            
+            // Анализ калорий
+            if (periodData.avgKcal > 0) {
+                var targetKcal = 2200;
+                var diff = Math.abs(periodData.avgKcal - targetKcal);
+                if (diff <= 200) {
+                    notes.push('✓ Калории близки к цели: ' + periodData.avgKcal + ' ккал');
+                } else if (periodData.avgKcal < targetKcal) {
+                    notes.push('⚠️ Недоедание: -' + diff + ' ккал от цели');
+                } else {
+                    notes.push('⚠️ Переедание: +' + diff + ' ккал от цели');
+                }
+            }
+            
+            // Подсказки
+            notes.push('💡 Перед тяжелым жимом: быстрые углеводы за 60-90 минут');
+            notes.push('💡 После тренировки: белок + углеводы в течение 30 минут');
+            notes.push('💡 Голодание в воскресенье: отличная практика для метаболизма');
+            
+            notes.forEach(function(note) {
+                var div = document.createElement('div');
+                div.style.marginBottom = '12px';
+                div.style.lineHeight = '1.6';
+                div.innerHTML = note;
+                container.appendChild(div);
+            });
+        }
+
         // Рендер заметок нутрициолога
         function renderNutritionistNotes() {
             var container = document.getElementById('nutritionist-notes');
